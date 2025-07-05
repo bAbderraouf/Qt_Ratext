@@ -1,16 +1,4 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include <QApplication>
-#include <QMessageBox>
-#include <QFileDialog>
-#include <QDebug>
-#include <Qfile>
-#include <QTextStream>
-#include <QTextDocument>
-#include <QPainter>
-#include <QPdfWriter>
-#include <QPrinter>
-#include "settingsinfodialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -32,6 +20,7 @@ QSize MainWindow::sizeHint() const
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete settings;
 }
 
 //---------------------------------------------------
@@ -74,6 +63,9 @@ void MainWindow::setupSignalSlotsConnections()
 
     //settings
     settingsAction();
+
+    // cursor position
+    cursorPositionChanged();
 }
 
 //---------------------------------------------------
@@ -91,6 +83,22 @@ void MainWindow::updateTextEditWrapMode()
         //saut automatique de lignes
         ui->textEdit->setLineWrapMode(QTextEdit::WidgetWidth);
     }
+}
+
+//---------------------------------------------------
+//          updatePdfExportFormatSetings
+//---------------------------------------------------
+void MainWindow::updatePdfExportFormatSetings(QPrinter &printer)
+{
+    // apply pdfExportFormat from settings
+    if(pdfExportForamt == "A1")
+        printer.setPageSize(QPageSize(QPageSize::A1));
+    else if(pdfExportForamt == "A2")
+        printer.setPageSize(QPageSize(QPageSize::A2));
+    else if(pdfExportForamt == "A3")
+        printer.setPageSize(QPageSize(QPageSize::A3));
+    else if(pdfExportForamt == "A4")
+        printer.setPageSize(QPageSize(QPageSize::A4));
 }
 
 //---------------------------------------------------
@@ -220,7 +228,6 @@ void MainWindow::aboutAction()
         QMessageBox::information(this, "About", msg , QMessageBox::Ok); });
 }
 
-
 //---------------------------------------------------
 //             Seclect All action
 //---------------------------------------------------
@@ -230,25 +237,61 @@ void MainWindow::selectAllAction()
         ui->textEdit->selectAll();  });
 }
 
+//---------------------------------------------------
+//             Settings action
+//---------------------------------------------------
 void MainWindow::settingsAction()
 {
-    connect(ui->settingsAction, &QAction::triggered, [=](){
-
-    int res = settings->exec();
-
-    // accepted setting
-    if(res == QDialog::Accepted)
+    connect(ui->settingsAction, &QAction::triggered, [=]()
     {
-        pdfExportForamt = settings->getPdfExportForamt();
-        noWrapLines = settings->getNoWrapLines();
 
-        qDebug() << " pdf format : " << pdfExportForamt ;
-        qDebug()  << "wrap mode : " << noWrapLines;
+        int res = settings->exec();
 
-        // update textEdit settings
-        updateTextEditWrapMode();
-    }
+        // accepted setting
+        if(res == QDialog::Accepted)
+        {
+            pdfExportForamt = settings->getPdfExportForamt();
+            noWrapLines = settings->getNoWrapLines();
+
+            qDebug() << " pdf format : " << pdfExportForamt ;
+            qDebug()  << "wrap mode : " << noWrapLines;
+
+            // update textEdit settings
+            updateTextEditWrapMode();
+        }
     });
+}
+
+//---------------------------------------------------
+//          cursorPositionChanged
+//---------------------------------------------------
+void MainWindow::cursorPositionChanged()
+{
+    connect(ui->textEdit, &QTextEdit::cursorPositionChanged, [=](){
+        updateCursorPosition();
+    } );
+}
+
+//---------------------------------------------------
+//          updateCursorPosition
+//---------------------------------------------------
+void MainWindow::updateCursorPosition()
+{
+    cursor = ui->textEdit->textCursor();
+    idxLine = cursor.blockNumber() + 1;
+    idxColumn = cursor.positionInBlock() + 1; // starts from 0
+
+    writeCursorPosition();
+}
+
+//---------------------------------------------------
+//          writeCursorPosition
+//---------------------------------------------------
+void MainWindow::writeCursorPosition()
+{
+    QString strCursorPos = "Line " + QString::number(idxLine) + ", Col " + QString::number(idxColumn) + ".";
+    strCursorPos.append("           |  RaTex by : A.Bousri.");
+    ui->statusbar->showMessage(strCursorPos);
 }
 
 //---------------------------------------------------
@@ -268,18 +311,9 @@ void MainWindow::saveTextToFile(QString const &filePath, QString const & text , 
         QPrinter printer(QPrinter::HighResolution);
         printer.setOutputFormat(QPrinter::PdfFormat);
 
-        //-----------------------
         // apply pdfExportFormat from settings
-        if(pdfExportForamt == "A1")
-            printer.setPageSize(QPageSize(QPageSize::A1));
-        else if(pdfExportForamt == "A2")
-            printer.setPageSize(QPageSize(QPageSize::A2));
-        else if(pdfExportForamt == "A3")
-            printer.setPageSize(QPageSize(QPageSize::A3));
-        else if(pdfExportForamt == "A4")
-            printer.setPageSize(QPageSize(QPageSize::A4));
+        updatePdfExportFormatSetings(printer);
 
-        //-----------------------
         printer.setOutputFileName(filePath);
 
         doc.print(&printer);
@@ -321,7 +355,7 @@ QString MainWindow::readContentFromTextFile(QString const &filePath)
     }
     else
     {
-        qDebug() << "impossible d'ouvrir le fichier";
+        QMessageBox::critical(this, "Import error!", "Could not open the file!", QMessageBox::Ok);
     }
     return text;
 }
@@ -339,5 +373,12 @@ void MainWindow::init()
 
     // size hint
     this->sizeHint();
+
+    // cursor position
+    updateCursorPosition();
+
+    // main tab (never deleted)
+    //textEditList.append(ui->textEdit);
+
 }
 
