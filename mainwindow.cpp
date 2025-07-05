@@ -370,6 +370,8 @@ void MainWindow::init()
     noWrapLines = settings->getNoWrapLines();
 
     updateTextEditWrapMode();
+    this->setCentralWidget(ui->textEdit);
+
 
     // size hint
     this->sizeHint();
