@@ -23,4 +23,5 @@ int main(int argc, char *argv[])
     w.setWindowIcon(QIcon(":images/RaText.png"));
     w.show();
     return a.exec();
+
 }

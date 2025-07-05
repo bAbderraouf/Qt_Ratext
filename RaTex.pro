@@ -1,6 +1,7 @@
 QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT += printsupport
 
 CONFIG += c++17
 
@@ -10,13 +11,16 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    settingsinfodialog.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    settingsinfodialog.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    settingsinfodialog.ui
 
 TRANSLATIONS += \
     RaTex_ar_DZ.ts
