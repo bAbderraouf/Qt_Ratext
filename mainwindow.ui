@@ -76,33 +76,36 @@
      <property name="title">
       <string>Custom toolbar</string>
      </property>
-     <addaction name="actionOpen_file"/>
-     <addaction name="actionSave_file"/>
-     <addaction name="actionExport_as_PDF_file"/>
+     <addaction name="removeOpenFileFromToolbar"/>
+     <addaction name="removeSaveFileFromToolbar"/>
+     <addaction name="removeExport_as_PDF_file_fromToolbar"/>
      <addaction name="separator"/>
-     <addaction name="actionCopy_2"/>
-     <addaction name="actionPaste_2"/>
-     <addaction name="actionPaste_3"/>
-     <addaction name="actionSelect_All"/>
+     <addaction name="removeActionCopyFromToolbar"/>
+     <addaction name="removeActionCutFromToolbar"/>
+     <addaction name="removeactionPasteFromToolbar"/>
+     <addaction name="removeActionSelect_AllFromtoolbar"/>
      <addaction name="separator"/>
-     <addaction name="actionUndo_2"/>
-     <addaction name="actionRedo_2"/>
+     <addaction name="removeActionUndoFromToolbar"/>
+     <addaction name="removeActionRedoFromToolbar"/>
      <addaction name="separator"/>
-     <addaction name="actionFont_2"/>
-     <addaction name="actionText_color"/>
+     <addaction name="removeActionFontFromToolbar"/>
+     <addaction name="removeText_colorFromToolbar"/>
      <addaction name="separator"/>
-     <addaction name="actionTransparent_mode"/>
-     <addaction name="actionZoom"/>
+     <addaction name="removeActionZoomInFromTollbar"/>
+     <addaction name="removeActionZoomOutFromTollbar"/>
      <addaction name="separator"/>
      <addaction name="removeAboutFromToolbar"/>
      <addaction name="removeQuitFromToolbar"/>
      <addaction name="removeSettingsFromToolbar"/>
     </widget>
     <addaction name="actionTransparent"/>
-    <addaction name="actionzoom"/>
+    <addaction name="actionzoomIn"/>
+    <addaction name="actionzoom_out"/>
+    <addaction name="separator"/>
     <addaction name="actionShow_Tool_bar"/>
     <addaction name="actionShow_statusbar"/>
     <addaction name="menuCustom_toolbar"/>
+    <addaction name="separator"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -136,7 +139,8 @@
    <addaction name="actionColor"/>
    <addaction name="separator"/>
    <addaction name="actionTransparent"/>
-   <addaction name="actionzoom"/>
+   <addaction name="actionzoom_out"/>
+   <addaction name="actionzoomIn"/>
    <addaction name="separator"/>
    <addaction name="settingsAction"/>
    <addaction name="actionAbout"/>
@@ -308,16 +312,16 @@
     <enum>QAction::MenuRole::NoRole</enum>
    </property>
   </action>
-  <action name="actionzoom">
+  <action name="actionzoomIn">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/images/loupe.png</normaloff>:/images/loupe.png</iconset>
+     <normaloff>:/images/zoomIn.png</normaloff>:/images/zoomIn.png</iconset>
    </property>
    <property name="text">
-    <string>Zoom</string>
+    <string>Zoom in</string>
    </property>
    <property name="toolTip">
-    <string>zoom</string>
+    <string>zoom in</string>
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
@@ -339,69 +343,122 @@
     <string>Show statusbar</string>
    </property>
   </action>
-  <action name="actionOpen_file">
+  <action name="removeOpenFileFromToolbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Open file</string>
+    <string>remove Open file action</string>
    </property>
   </action>
-  <action name="actionSave_file">
+  <action name="removeSaveFileFromToolbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Save file</string>
+    <string>Remove save file</string>
+   </property>
+   <property name="toolTip">
+    <string>Remove save file from toolbar</string>
    </property>
   </action>
-  <action name="actionExport_as_PDF_file">
+  <action name="removeExport_as_PDF_file_fromToolbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Export as PDF file</string>
    </property>
-  </action>
-  <action name="actionCopy_2">
-   <property name="text">
-    <string>Copy</string>
+   <property name="toolTip">
+    <string>remove &quot;Export asPDF&quot; fromToolbar</string>
    </property>
   </action>
-  <action name="actionPaste_2">
+  <action name="removeActionCopyFromToolbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Cut</string>
+    <string>show Copy</string>
+   </property>
+   <property name="toolTip">
+    <string>show Copy on toolbar</string>
    </property>
   </action>
-  <action name="actionPaste_3">
+  <action name="removeActionCutFromToolbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Paste</string>
+    <string>show Cut</string>
+   </property>
+   <property name="toolTip">
+    <string>show Cut on toolbar</string>
    </property>
   </action>
-  <action name="actionSelect_All">
+  <action name="removeactionPasteFromToolbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Select All</string>
+    <string>show Paste</string>
+   </property>
+   <property name="toolTip">
+    <string>show Paste on toolbar</string>
    </property>
   </action>
-  <action name="actionUndo_2">
+  <action name="removeActionSelect_AllFromtoolbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Undo</string>
+    <string>show Select All</string>
+   </property>
+   <property name="toolTip">
+    <string>show Select All on toolbar</string>
    </property>
   </action>
-  <action name="actionRedo_2">
+  <action name="removeActionUndoFromToolbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Redo</string>
+    <string>show Undo</string>
+   </property>
+   <property name="toolTip">
+    <string>show Undo on toolbar</string>
    </property>
   </action>
-  <action name="actionFont_2">
+  <action name="removeActionRedoFromToolbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Font selection</string>
+    <string>show Redo</string>
+   </property>
+   <property name="toolTip">
+    <string>show Redo on toolbar</string>
    </property>
   </action>
-  <action name="actionText_color">
+  <action name="removeActionFontFromToolbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
    <property name="text">
-    <string>Text color</string>
+    <string>show Font selection</string>
+   </property>
+   <property name="toolTip">
+    <string>show Font selection on toolbar</string>
    </property>
   </action>
-  <action name="actionTransparent_mode">
-   <property name="text">
-    <string>Transparent mode</string>
+  <action name="removeText_colorFromToolbar">
+   <property name="checkable">
+    <bool>true</bool>
    </property>
-  </action>
-  <action name="actionZoom">
    <property name="text">
-    <string>Zoom</string>
+    <string>show Text color</string>
+   </property>
+   <property name="toolTip">
+    <string>show Text color on toolbar</string>
    </property>
   </action>
   <action name="removeAboutFromToolbar">
@@ -409,7 +466,10 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>About</string>
+    <string>show About</string>
+   </property>
+   <property name="toolTip">
+    <string>show About on toolbar</string>
    </property>
   </action>
   <action name="removeQuitFromToolbar">
@@ -417,7 +477,10 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Quit</string>
+    <string>show Quit </string>
+   </property>
+   <property name="toolTip">
+    <string>Show Quit on toolbar</string>
    </property>
   </action>
   <action name="removeSettingsFromToolbar">
@@ -425,7 +488,61 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>Settings</string>
+    <string>show settings</string>
+   </property>
+   <property name="toolTip">
+    <string>show settings on toolbar</string>
+   </property>
+  </action>
+  <action name="removeTransparentModeFromToolbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>show transparent</string>
+   </property>
+   <property name="toolTip">
+    <string>show transparent mode on toolbar</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionzoom_out">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/images/zoomOut.png</normaloff>:/images/zoomOut.png</iconset>
+   </property>
+   <property name="text">
+    <string>zoom out</string>
+   </property>
+   <property name="toolTip">
+    <string>zoom out</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="removeActionZoomInFromTollbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>show Zoom in</string>
+   </property>
+   <property name="toolTip">
+    <string>show zoom in on toolbar</string>
+   </property>
+  </action>
+  <action name="removeActionZoomOutFromTollbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>show Zoom out</string>
+   </property>
+   <property name="toolTip">
+    <string>show zoom out on toolbar</string>
    </property>
   </action>
  </widget>

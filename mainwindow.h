@@ -94,11 +94,43 @@ public:
 private slots:
 
 
-    void on_removeQuitFromToolbar_toggled(bool arg1);
+    void on_removeQuitFromToolbar_toggled(bool isSelected);
 
-    void on_removeSettingsFromToolbar_toggled(bool arg1);
+    void on_removeSettingsFromToolbar_toggled(bool isSelected);
 
-    void on_removeAboutFromToolbar_toggled(bool arg1);
+    void on_removeAboutFromToolbar_toggled(bool isSelected);
+
+    void on_removeActionZoomInFromTollbar_toggled(bool isSelected);
+
+    void on_removeText_colorFromToolbar_toggled(bool isSelected);
+
+    void on_removeActionFontFromToolbar_toggled(bool isSelected);
+
+    void on_removeActionRedoFromToolbar_toggled(bool isSelected);
+
+    void on_removeActionUndoFromToolbar_toggled(bool isSelected);
+
+    void on_removeActionSelect_AllFromtoolbar_toggled(bool isSelected);
+
+    void on_removeactionPasteFromToolbar_toggled(bool isSelected);
+
+    void on_removeActionCutFromToolbar_toggled(bool isSelected);
+
+    void on_removeActionCopyFromToolbar_toggled(bool isSelected);
+
+    void on_removeExport_as_PDF_file_fromToolbar_toggled(bool isSelected);
+
+    void on_removeOpenFileFromToolbar_toggled(bool isSelected);
+
+    void on_removeSaveFileFromToolbar_toggled(bool isSelected);
+
+    void on_removeTransparentModeFromToolbar_toggled(bool isSelected);
+
+    void on_removeActionZoomOutFromTollbar_toggled(bool isSelected);
+
+    void on_actionzoomIn_triggered();
+
+    void on_actionzoom_out_triggered();
 
 private:
     Ui::MainWindow *ui;
@@ -127,6 +159,8 @@ private:
         flag_showStatusBar;
 
     double opacity;
+
+    QColor bagroundColorInTranparentMode;
 
 };
 #endif // MAINWINDOW_H

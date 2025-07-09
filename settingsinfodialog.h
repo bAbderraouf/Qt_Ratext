@@ -2,6 +2,7 @@
 #define SETTINGSINFODIALOG_H
 
 #include <QDialog>
+#include <QColorDialog>
 
 namespace Ui {
 class SettingsInfoDialog;
@@ -22,11 +23,15 @@ public:
 
     float getOpacity();
 
+    QColor getBagroundColorInTranparentMode();
+
 private slots:
 
     void on_cancelPushButton_2_clicked();
 
     void on_okPushButton_clicked();
+
+    void on_pushButton_clicked();
 
 private:
     Ui::SettingsInfoDialog *ui;
@@ -34,6 +39,8 @@ private:
     QString pdfExportForamt;
 
     bool noWrapLines;
+
+    QColor bagroundColorInTranparentMode;
 };
 
 #endif // SETTINGSINFODIALOG_H

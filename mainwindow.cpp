@@ -269,6 +269,7 @@ void MainWindow::settingsAction()
             pdfExportForamt = settings->getPdfExportForamt();
             noWrapLines = settings->getNoWrapLines();
             opacity = settings->getOpacity();
+            bagroundColorInTranparentMode = settings->getBagroundColorInTranparentMode();
 
             // update textEdit settings
             updateTextEditWrapMode();
@@ -296,7 +297,7 @@ void MainWindow::transparentAction()
 
 
             // Rendre le fond du texte transparent
-            ui->textEdit->setStyleSheet("background: black; color: yellow; border: none; ");
+            ui->textEdit->setStyleSheet(QString("background: %1; color: yellow; border: none; ").arg(bagroundColorInTranparentMode.name()));
 
             this->hide();
             this->show();  // Très important sinon la fenêtre reste cachée
@@ -350,10 +351,28 @@ void MainWindow::fontAction()
         // select a font
         QFont  textEditFont = QFontDialog::getFont(&ok, QFont("Select your font"));
 
+        // apply font to text format
+        QTextCharFormat format;
+        format.setFont(textEditFont);
+
         //set selected font
         if(ok)
         {
-            ui->textEdit->setFont(textEditFont);
+            // if any text selected
+            if(ui->textEdit->textCursor().hasSelection())
+            {
+                // apply font to selected text
+
+                // get cursor position
+                QTextCursor cursor = ui->textEdit->textCursor();
+
+                cursor.mergeCharFormat(format);
+            }
+            else
+            {
+                // apply font to next characters
+                ui->textEdit->mergeCurrentCharFormat(format);
+            }
         }
     });
 }
@@ -491,6 +510,9 @@ void MainWindow::init()
     ui->toolBar->setStyleSheet("background: white;");
     ui->statusbar->setStyleSheet("background: white;");
 
+    // pour recupere des copies avec couleur
+    ui->textEdit->setAcceptRichText(true);
+
     ui->toolBar->setMovable(true);
 
     // new settings QDialog form
@@ -522,12 +544,11 @@ void MainWindow::init()
     flag_showMenuBar = true;
 
     opacity = settings->getOpacity();
+
+    bagroundColorInTranparentMode = settings->getBagroundColorInTranparentMode();
+
     qDebug() << "opacity : " << opacity;
 }
-
-
-
-
 
 
 void MainWindow::on_removeQuitFromToolbar_toggled(bool isSelected)
@@ -555,3 +576,143 @@ void MainWindow::on_removeAboutFromToolbar_toggled(bool isSelected)
     else
         ui->toolBar->addAction(ui->actionAbout);
 }
+
+
+void MainWindow::on_removeActionZoomInFromTollbar_toggled(bool isSelected)
+{
+    if(isSelected)
+        ui->toolBar->removeAction(ui->actionzoomIn);
+    else
+        ui->toolBar->addAction(ui->actionzoomIn);
+
+}
+
+void MainWindow::on_removeText_colorFromToolbar_toggled(bool isSelected)
+{
+    if(isSelected)
+        ui->toolBar->removeAction(ui->actionColor);
+    else
+        ui->toolBar->addAction(ui->actionColor);
+}
+
+
+void MainWindow::on_removeActionFontFromToolbar_toggled(bool isSelected)
+{
+    if(isSelected)
+        ui->toolBar->removeAction(ui->actionFont);
+    else
+        ui->toolBar->addAction(ui->actionFont);
+}
+
+
+void MainWindow::on_removeActionRedoFromToolbar_toggled(bool isSelected)
+{
+    if(isSelected)
+        ui->toolBar->removeAction(ui->actionRedo);
+    else
+        ui->toolBar->addAction(ui->actionRedo);
+}
+
+
+void MainWindow::on_removeActionUndoFromToolbar_toggled(bool isSelected)
+{
+    if(isSelected)
+        ui->toolBar->removeAction(ui->actionUndo);
+    else
+        ui->toolBar->addAction(ui->actionUndo);
+}
+
+
+void MainWindow::on_removeActionSelect_AllFromtoolbar_toggled(bool isSelected)
+{
+    if(isSelected)
+        ui->toolBar->removeAction(ui->actionSelectAll);
+    else
+        ui->toolBar->addAction(ui->actionSelectAll);
+}
+
+
+void MainWindow::on_removeactionPasteFromToolbar_toggled(bool isSelected)
+{
+    if(isSelected)
+        ui->toolBar->removeAction(ui->actionPaste);
+    else
+        ui->toolBar->addAction(ui->actionPaste);
+}
+
+
+void MainWindow::on_removeActionCutFromToolbar_toggled(bool isSelected)
+{
+    if(isSelected)
+        ui->toolBar->removeAction(ui->actionCut);
+    else
+        ui->toolBar->addAction(ui->actionCut);
+}
+
+
+void MainWindow::on_removeActionCopyFromToolbar_toggled(bool isSelected)
+{
+    if(isSelected)
+        ui->toolBar->removeAction(ui->actionCopy);
+    else
+        ui->toolBar->addAction(ui->actionCopy);
+}
+
+
+void MainWindow::on_removeExport_as_PDF_file_fromToolbar_toggled(bool isSelected)
+{
+    if(isSelected)
+        ui->toolBar->removeAction(ui->actionExport_as_PDF);
+    else
+        ui->toolBar->addAction(ui->actionExport_as_PDF);
+}
+
+
+void MainWindow::on_removeOpenFileFromToolbar_toggled(bool isSelected)
+{
+    if(isSelected)
+        ui->toolBar->removeAction(ui->actionOpen);
+    else
+        ui->toolBar->addAction(ui->actionOpen);
+}
+
+
+void MainWindow::on_removeSaveFileFromToolbar_toggled(bool isSelected)
+{
+    if(isSelected)
+        ui->toolBar->removeAction(ui->actionSave);
+    else
+        ui->toolBar->addAction(ui->actionSave);
+}
+
+
+void MainWindow::on_removeTransparentModeFromToolbar_toggled(bool  isSelected)
+{
+    if(isSelected)
+        ui->toolBar->removeAction(ui->actionTransparent);
+    else
+        ui->toolBar->addAction(ui->actionTransparent);
+}
+
+
+
+void MainWindow::on_removeActionZoomOutFromTollbar_toggled(bool  isSelected)
+{
+    if(isSelected)
+        ui->toolBar->removeAction(ui->actionzoom_out);
+    else
+        ui->toolBar->addAction(ui->actionzoom_out);
+}
+
+
+void MainWindow::on_actionzoomIn_triggered()
+{
+    ui->textEdit->zoomIn();
+}
+
+
+void MainWindow::on_actionzoom_out_triggered()
+{
+    ui->textEdit->zoomOut();
+}
+

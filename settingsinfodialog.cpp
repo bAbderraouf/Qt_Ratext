@@ -18,6 +18,7 @@ SettingsInfoDialog::SettingsInfoDialog(QWidget *parent)
     // default values
     ui->pdfFormatComboBox->setCurrentText("A4");
     ui->noWrapCheckbox->setChecked(true);
+    bagroundColorInTranparentMode = Qt::black;
 
     // init variables
     pdfExportForamt = ui->pdfFormatComboBox->currentText();
@@ -46,6 +47,11 @@ float SettingsInfoDialog::getOpacity()
     return ui->opacityDoubleSpinBox->value();
 }
 
+QColor SettingsInfoDialog::getBagroundColorInTranparentMode()
+{
+    return bagroundColorInTranparentMode;
+}
+
 
 void SettingsInfoDialog::on_cancelPushButton_2_clicked()
 {
@@ -59,5 +65,21 @@ void SettingsInfoDialog::on_okPushButton_clicked()
     pdfExportForamt = ui->pdfFormatComboBox->currentText();
 
     this->accept();
+}
+
+
+void SettingsInfoDialog::on_pushButton_clicked()
+{
+    //select color
+    QColor const selectedColor = QColorDialog::getColor(Qt::black,this, "Select a color");
+
+    qDebug() << "selected color " << selectedColor;
+
+    if(selectedColor.isValid())
+    {
+        //set new color
+        bagroundColorInTranparentMode = selectedColor;
+    }
+
 }
 
