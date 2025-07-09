@@ -8,6 +8,8 @@
 #include <QApplication>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QFontDialog>
+#include <QColorDialog>
 #include <QDebug>
 #include <Qfile>
 #include <QTextStream>
@@ -70,14 +72,33 @@ public:
 
     void settingsAction(void);
 
+    void transparentAction(void);
+
+    void showToolbarAction(void);
+
+    void showStatusBarAction(void);
+
+    void fontAction(void);
+
+    void textColorAction(void);
+
     void cursorPositionChanged(void); // not an aciton
 
     void updateCursorPosition(void);
 
+    void updateWindowOpacity(void);
+
     void writeCursorPosition(void);
+
 
 private slots:
 
+
+    void on_removeQuitFromToolbar_toggled(bool arg1);
+
+    void on_removeSettingsFromToolbar_toggled(bool arg1);
+
+    void on_removeAboutFromToolbar_toggled(bool arg1);
 
 private:
     Ui::MainWindow *ui;
@@ -97,5 +118,15 @@ private:
     int idxLine;
 
     int idxColumn;
+
+    QString defaultStyleSheet, transparentStyleSheet;
+
+    bool flag_transparent,
+        flag_showToolBar,
+        flag_showMenuBar,
+        flag_showStatusBar;
+
+    double opacity;
+
 };
 #endif // MAINWINDOW_H

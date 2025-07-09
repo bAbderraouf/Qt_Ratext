@@ -53,20 +53,60 @@
     <addaction name="actionCopy"/>
     <addaction name="actionCut"/>
     <addaction name="actionPaste"/>
+    <addaction name="actionSelectAll"/>
     <addaction name="separator"/>
     <addaction name="actionUndo"/>
     <addaction name="actionRedo"/>
+    <addaction name="separator"/>
+    <addaction name="actionFont"/>
     <addaction name="separator"/>
     <addaction name="settingsAction"/>
    </widget>
    <widget class="QMenu" name="menuAbout">
     <property name="title">
-     <string>About</string>
+     <string>Help</string>
     </property>
     <addaction name="actionAbout"/>
    </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <widget class="QMenu" name="menuCustom_toolbar">
+     <property name="title">
+      <string>Custom toolbar</string>
+     </property>
+     <addaction name="actionOpen_file"/>
+     <addaction name="actionSave_file"/>
+     <addaction name="actionExport_as_PDF_file"/>
+     <addaction name="separator"/>
+     <addaction name="actionCopy_2"/>
+     <addaction name="actionPaste_2"/>
+     <addaction name="actionPaste_3"/>
+     <addaction name="actionSelect_All"/>
+     <addaction name="separator"/>
+     <addaction name="actionUndo_2"/>
+     <addaction name="actionRedo_2"/>
+     <addaction name="separator"/>
+     <addaction name="actionFont_2"/>
+     <addaction name="actionText_color"/>
+     <addaction name="separator"/>
+     <addaction name="actionTransparent_mode"/>
+     <addaction name="actionZoom"/>
+     <addaction name="separator"/>
+     <addaction name="removeAboutFromToolbar"/>
+     <addaction name="removeQuitFromToolbar"/>
+     <addaction name="removeSettingsFromToolbar"/>
+    </widget>
+    <addaction name="actionTransparent"/>
+    <addaction name="actionzoom"/>
+    <addaction name="actionShow_Tool_bar"/>
+    <addaction name="actionShow_statusbar"/>
+    <addaction name="menuCustom_toolbar"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
+   <addaction name="menuView"/>
    <addaction name="menuAbout"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -91,6 +131,12 @@
    <addaction name="separator"/>
    <addaction name="actionUndo"/>
    <addaction name="actionRedo"/>
+   <addaction name="separator"/>
+   <addaction name="actionFont"/>
+   <addaction name="actionColor"/>
+   <addaction name="separator"/>
+   <addaction name="actionTransparent"/>
+   <addaction name="actionzoom"/>
    <addaction name="separator"/>
    <addaction name="settingsAction"/>
    <addaction name="actionAbout"/>
@@ -215,6 +261,171 @@
    </property>
    <property name="menuRole">
     <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionTransparent">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/images/display.png</normaloff>:/images/display.png</iconset>
+   </property>
+   <property name="text">
+    <string>Transparent mode</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionFont">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/images/font-size.png</normaloff>:/images/font-size.png</iconset>
+   </property>
+   <property name="text">
+    <string>Font</string>
+   </property>
+   <property name="toolTip">
+    <string>Font text</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionColor">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/images/color.png</normaloff>:/images/color.png</iconset>
+   </property>
+   <property name="text">
+    <string>Text color</string>
+   </property>
+   <property name="toolTip">
+    <string>Text color</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionzoom">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/images/loupe.png</normaloff>:/images/loupe.png</iconset>
+   </property>
+   <property name="text">
+    <string>Zoom</string>
+   </property>
+   <property name="toolTip">
+    <string>zoom</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::MenuRole::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionShow_Tool_bar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show toolbar</string>
+   </property>
+  </action>
+  <action name="actionShow_statusbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Show statusbar</string>
+   </property>
+  </action>
+  <action name="actionOpen_file">
+   <property name="text">
+    <string>Open file</string>
+   </property>
+  </action>
+  <action name="actionSave_file">
+   <property name="text">
+    <string>Save file</string>
+   </property>
+  </action>
+  <action name="actionExport_as_PDF_file">
+   <property name="text">
+    <string>Export as PDF file</string>
+   </property>
+  </action>
+  <action name="actionCopy_2">
+   <property name="text">
+    <string>Copy</string>
+   </property>
+  </action>
+  <action name="actionPaste_2">
+   <property name="text">
+    <string>Cut</string>
+   </property>
+  </action>
+  <action name="actionPaste_3">
+   <property name="text">
+    <string>Paste</string>
+   </property>
+  </action>
+  <action name="actionSelect_All">
+   <property name="text">
+    <string>Select All</string>
+   </property>
+  </action>
+  <action name="actionUndo_2">
+   <property name="text">
+    <string>Undo</string>
+   </property>
+  </action>
+  <action name="actionRedo_2">
+   <property name="text">
+    <string>Redo</string>
+   </property>
+  </action>
+  <action name="actionFont_2">
+   <property name="text">
+    <string>Font selection</string>
+   </property>
+  </action>
+  <action name="actionText_color">
+   <property name="text">
+    <string>Text color</string>
+   </property>
+  </action>
+  <action name="actionTransparent_mode">
+   <property name="text">
+    <string>Transparent mode</string>
+   </property>
+  </action>
+  <action name="actionZoom">
+   <property name="text">
+    <string>Zoom</string>
+   </property>
+  </action>
+  <action name="removeAboutFromToolbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>About</string>
+   </property>
+  </action>
+  <action name="removeQuitFromToolbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Quit</string>
+   </property>
+  </action>
+  <action name="removeSettingsFromToolbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Settings</string>
    </property>
   </action>
  </widget>

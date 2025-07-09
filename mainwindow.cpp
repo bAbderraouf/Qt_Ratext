@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     init();
 
     setupSignalSlotsConnections();
+
 }
 
 QSize MainWindow::sizeHint() const
@@ -66,6 +67,21 @@ void MainWindow::setupSignalSlotsConnections()
 
     // cursor position
     cursorPositionChanged();
+
+    // transparent
+    transparentAction();
+
+    // toolbar
+    showToolbarAction();
+
+    //stausbar
+    showStatusBarAction();
+
+    //font
+    fontAction();
+
+    // text color
+    textColorAction();
 }
 
 //---------------------------------------------------
@@ -148,10 +164,10 @@ void MainWindow::saveAsPdfAction()
             {
 
                 // capture text from textEdit
-                QString text = ui->textEdit->toPlainText();
+                QString text = ui->textEdit->toHtml(); // toPlaintext() : text pure
 
                 // get output file name
-                QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "/home/jana/untitled.pdf", tr("PDF (*.pdf)"));
+                QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"), "/home/untitled.pdf", tr("PDF (*.pdf)"));
 
                 bool toPDF = true;
 
@@ -252,14 +268,113 @@ void MainWindow::settingsAction()
         {
             pdfExportForamt = settings->getPdfExportForamt();
             noWrapLines = settings->getNoWrapLines();
-
-            qDebug() << " pdf format : " << pdfExportForamt ;
-            qDebug()  << "wrap mode : " << noWrapLines;
+            opacity = settings->getOpacity();
 
             // update textEdit settings
             updateTextEditWrapMode();
+
+            //update opacity
+            updateWindowOpacity();
+
         }
     });
+}
+
+void MainWindow::transparentAction()
+{
+    connect(ui->actionTransparent , &QAction::toggled , [=](){
+
+        flag_transparent = ! flag_transparent;
+
+        if(flag_transparent)
+        {
+            ui->toolBar->update();
+
+            //this->setAttribute(Qt::WA_TranslucentBackground);//transparent window
+            this->setWindowFlags( Qt::Window);
+            this->setWindowOpacity(opacity); // Réglage global de l’opacité
+
+
+            // Rendre le fond du texte transparent
+            ui->textEdit->setStyleSheet("background: black; color: yellow; border: none; ");
+
+            this->hide();
+            this->show();  // Très important sinon la fenêtre reste cachée
+        }
+        else
+        {
+            // Revenir au style normal (ex: bouton "Désactiver Style Custom")
+            this->setAttribute(Qt::WA_TranslucentBackground, false);  // Désactive la transparence
+            this->setWindowFlags( Qt::Window);            // Restaure les bordures
+            this->setWindowOpacity(1.0);                  // Opaque
+
+            // Restaure un style normal pour le QTextEdit
+            ui->textEdit->setStyleSheet("background: white; color: black; border: 1px solid gray;");
+
+            this->hide();
+            this->show(); // Important pour réappliquer les flags
+        }
+    });
+}
+
+void MainWindow::showToolbarAction()
+{
+    connect(ui->actionShow_Tool_bar , &QAction::toggled , [=](){
+
+         flag_showToolBar = !flag_showToolBar;
+
+          // show/ hide toolbar
+         for(QToolBar * bar: findChildren<QToolBar*>())
+             flag_showToolBar ? bar->show() : bar->hide();
+    });
+}
+
+
+void MainWindow::showStatusBarAction()
+{
+    connect(ui->actionShow_statusbar , &QAction::toggled , [=](){
+
+        flag_showStatusBar = !flag_showStatusBar;
+
+        // show / hide status bar
+        flag_showStatusBar ?  ui->statusbar->show() : ui->statusbar->hide();
+    });
+}
+
+void MainWindow::fontAction()
+{
+
+    connect(ui->actionFont , &QAction::triggered , [=]()
+    {
+        bool ok = false;
+        // select a font
+        QFont  textEditFont = QFontDialog::getFont(&ok, QFont("Select your font"));
+
+        //set selected font
+        if(ok)
+        {
+            ui->textEdit->setFont(textEditFont);
+        }
+    });
+}
+
+void MainWindow::textColorAction()
+{
+    connect(ui->actionColor , &QAction::triggered , [=]()
+            {
+               // capture color
+                QPalette pal = ui->textEdit->palette();
+                QColor initialTextColor = pal.color(QPalette::Text);
+
+                //select color
+                QColor const selectedColor = QColorDialog::getColor(initialTextColor,this, "Select a color");
+
+                if(selectedColor.isValid())
+                {
+                    //set new text color
+                    ui->textEdit->setTextColor(selectedColor);
+                }
+            });
 }
 
 //---------------------------------------------------
@@ -284,6 +399,12 @@ void MainWindow::updateCursorPosition()
     writeCursorPosition();
 }
 
+void MainWindow::updateWindowOpacity()
+{
+    if(flag_transparent)
+        this->setWindowOpacity(opacity);
+}
+
 //---------------------------------------------------
 //          writeCursorPosition
 //---------------------------------------------------
@@ -306,7 +427,8 @@ void MainWindow::saveTextToFile(QString const &filePath, QString const & text , 
     {
         // a formated object wich contains text
         QTextDocument doc;
-        doc.setPlainText(text);
+         // doc.setPlainText(text);  // text pure
+        doc.setHtml(text);
 
         QPrinter printer(QPrinter::HighResolution);
         printer.setOutputFormat(QPrinter::PdfFormat);
@@ -315,6 +437,7 @@ void MainWindow::saveTextToFile(QString const &filePath, QString const & text , 
         updatePdfExportFormatSetings(printer);
 
         printer.setOutputFileName(filePath);
+        printer.setFontEmbeddingEnabled(true);
 
         doc.print(&printer);
 
@@ -333,7 +456,6 @@ void MainWindow::saveTextToFile(QString const &filePath, QString const & text , 
             qDebug() << "impossible d'ouvrir le fichier";
         }
     }
-
 
 }
 
@@ -362,6 +484,15 @@ QString MainWindow::readContentFromTextFile(QString const &filePath)
 
 void MainWindow::init()
 {
+    // fenetre avec bg transparent
+    this->setAttribute(Qt::WA_TranslucentBackground);
+
+    // default background
+    ui->toolBar->setStyleSheet("background: white;");
+    ui->statusbar->setStyleSheet("background: white;");
+
+    ui->toolBar->setMovable(true);
+
     // new settings QDialog form
     settings = new SettingsInfoDialog(this);
 
@@ -372,7 +503,6 @@ void MainWindow::init()
     updateTextEditWrapMode();
     this->setCentralWidget(ui->textEdit);
 
-
     // size hint
     this->sizeHint();
 
@@ -382,5 +512,46 @@ void MainWindow::init()
     // main tab (never deleted)
     //textEditList.append(ui->textEdit);
 
+
+    defaultStyleSheet = this->styleSheet();
+
+    transparentStyleSheet = "";
+    flag_transparent = false;
+    flag_showToolBar= true;
+    flag_showStatusBar = true;
+    flag_showMenuBar = true;
+
+    opacity = settings->getOpacity();
+    qDebug() << "opacity : " << opacity;
 }
 
+
+
+
+
+
+void MainWindow::on_removeQuitFromToolbar_toggled(bool isSelected)
+{
+    if(isSelected)
+        ui->toolBar->removeAction(ui->actionQuit);
+    else
+        ui->toolBar->addAction(ui->actionQuit);
+}
+
+
+void MainWindow::on_removeSettingsFromToolbar_toggled(bool isSelected)
+{
+    if(isSelected)
+        ui->toolBar->removeAction(ui->settingsAction);
+    else
+        ui->toolBar->addAction(ui->settingsAction);
+}
+
+
+void MainWindow::on_removeAboutFromToolbar_toggled(bool isSelected)
+{
+    if(isSelected)
+        ui->toolBar->removeAction(ui->actionAbout);
+    else
+        ui->toolBar->addAction(ui->actionAbout);
+}

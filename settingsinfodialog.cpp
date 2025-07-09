@@ -13,6 +13,7 @@ SettingsInfoDialog::SettingsInfoDialog(QWidget *parent)
     ui->pdfFormatComboBox->addItem("A3");
     ui->pdfFormatComboBox->addItem("A4");
     ui->pdfFormatComboBox->setEditable(false);
+    ui->opacityDoubleSpinBox->setValue(0.5);
 
     // default values
     ui->pdfFormatComboBox->setCurrentText("A4");
@@ -39,6 +40,12 @@ bool SettingsInfoDialog::getNoWrapLines()
     noWrapLines = ui->noWrapCheckbox->isChecked();
     return noWrapLines;
 }
+
+float SettingsInfoDialog::getOpacity()
+{
+    return ui->opacityDoubleSpinBox->value();
+}
+
 
 void SettingsInfoDialog::on_cancelPushButton_2_clicked()
 {

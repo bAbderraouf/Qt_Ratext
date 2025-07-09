@@ -15,6 +15,13 @@
         <file>images/save_as_pdf.png</file>
         <file>images/selectAll.png</file>
         <file>images/settings.png</file>
+        <file>images/font-size.png</file>
+        <file>images/loupe.png</file>
+        <file>images/opacity.png</file>
+        <file>images/display.png</file>
+        <file>images/color.png</file>
+        <file>images/save_as_pdf1.png</file>
+        <file>images/savf.png</file>
     </qresource>
     <qresource prefix="/new/prefix1"/>
 </RCC>

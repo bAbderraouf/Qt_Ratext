@@ -18,10 +18,13 @@ int main(int argc, char *argv[])
         }
     }
     MainWindow w;
+
     w.adjustSize();
     w.setWindowTitle("RaText");
     w.setWindowIcon(QIcon(":images/RaText.png"));
     w.show();
+
+     qDebug()<< "style app : "<< a.styleSheet();
     return a.exec();
 
 }

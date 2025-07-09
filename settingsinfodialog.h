@@ -20,6 +20,8 @@ public:
 
     bool getNoWrapLines() ;
 
+    float getOpacity();
+
 private slots:
 
     void on_cancelPushButton_2_clicked();

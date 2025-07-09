@@ -34,3 +34,27 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     icons.qrc
+
+DISTFILES += \
+    images/RaText.png \
+    images/color.png \
+    images/copy.png \
+    images/display.png \
+    images/font-size.png \
+    images/loupe.png \
+    images/opacity.png \
+    images/open-folder.png \
+    images/paste.png \
+    images/redo.png \
+    images/rotate-arrow.png \
+    images/save.png \
+    images/save_as_pdf.png \
+    images/save_as_pdf1.png \
+    images/savf.png \
+    images/scissors.png \
+    images/selectAll.png \
+    images/settings.png \
+    images/shutdown.png \
+    images/support.png \
+    images/turn-left.png \
+    images/undo.png
